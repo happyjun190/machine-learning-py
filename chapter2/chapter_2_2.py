@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 #3、Liters of ice cream consumed per week
 #4、classify
 
+imgVector = kNN.handwritingClassTest()
+#print(imgVector)
+exit()
+kNN.classifyPerson()
+exit()
+
 kNN.datingClassTest()
 exit()
 
