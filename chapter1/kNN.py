@@ -11,10 +11,13 @@ def createDataSet():
 def classify0(inX, dataSet, labels, k):
     dataSetSize = dataSet.shape[0]                      #计算矩阵的行数
     diffMat = tile(inX, (dataSetSize, 1)) - dataSet     #矩阵相减
+    print(diffMat)
     sqDiffMat = diffMat**2                              #计算距离
     sqDistances = sqDiffMat.sum(axis=1)
     distances = sqDistances**0.5                        #开平方，计算点与点之间的距离
-    sortedDistancesIndicies = distances.argsort()       #下标排序
+    print(distances)
+    sortedDistancesIndicies = distances.argsort()       #下标排序，数据的升序，然后取下标
+    print(sortedDistancesIndicies)
     classCount = {}
     for i in range(k):
         voteIlabel = labels[sortedDistancesIndicies[i]]
