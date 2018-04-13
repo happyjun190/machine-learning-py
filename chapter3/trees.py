@@ -63,7 +63,7 @@ def chooseBestFeatureToSplit(dataSet):
             bestFeatures = i
     return bestFeatures
 
-#选举
+# 选举
 def majorityCnt(classList):
     classCount = {}
     for vote in classList:
