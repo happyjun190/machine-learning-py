@@ -40,3 +40,26 @@ def spliDataSet(dataSet, axis, value):
             retDataSet.append(reducedFeatVec)
     return retDataSet
 
+
+#选择最佳的特征
+def chooseBestFeatureToSplit(dataSet):
+    numFeatures = len(dataSet[0]) - 1
+    baseEntropy = calcShannonEnt(dataSet)
+    bestInfoGain = 0.0; bestFeatures = -1
+    for i in range(numFeatures):
+        featList = [example[i] for example in dataSet]
+        uniqueVals = set(featList)
+        newEntropy = 0.0
+        for value in uniqueVals:
+            subDataSet = spliDataSet(dataSet, i, value)
+            prob = len(subDataSet)/float(len(dataSet))
+            newEntropy += prob*calcShannonEnt(subDataSet)
+        infoGain = baseEntropy - newEntropy
+        print("index: %d, baseEntropy:%f, newEntropy:%f" % (i, baseEntropy, newEntropy))
+
+        if infoGain>bestInfoGain:
+            bestInfoGain = infoGain
+            bestFeatures = i
+    return bestFeatures
+
+
