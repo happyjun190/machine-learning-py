@@ -56,7 +56,7 @@ def chooseBestFeatureToSplit(dataSet):
             prob = len(subDataSet)/float(len(dataSet))
             newEntropy += prob*calcShannonEnt(subDataSet)
         infoGain = baseEntropy - newEntropy
-        print("index: %d, baseEntropy:%f, newEntropy:%f" % (i, baseEntropy, newEntropy))
+        #print("index: %d, baseEntropy:%f, newEntropy:%f" % (i, baseEntropy, newEntropy))
 
         if infoGain>bestInfoGain:
             bestInfoGain = infoGain
@@ -73,4 +73,27 @@ def majorityCnt(classList):
     return sortedClassCount[0][0]
 
 
+#构建决策树
+def createTree(dataSet, labels):
+    classList = [example[-1] for example in dataSet]
+    #print("classList.count(classList[0]):%d, len(classList):%d" % (classList.count(classList[0]), len(classList)))
+    #print(classList[0])
+    #print(classList.count(classList[0]) == len(classList))
+    #print(len(dataSet[0]))
+    if classList.count(classList[0]) == len(classList):
+        print(classList[0])
+        return classList[0]
+    if len(dataSet[0]) == 1:
+        return majorityCnt(classList)
+    bestFeat = chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel = labels[bestFeat]
+    print(bestFeatLabel)
+    myTree = {bestFeatLabel:{}}
+    del(labels[bestFeat])
+    featValues = [example[bestFeat] for example in dataSet]
+    uniqueVals = set(featValues)
+    for value in uniqueVals:
+        subLabels = labels[:]
+        myTree[bestFeatLabel][value] = createTree(spliDataSet(dataSet, bestFeat, value), subLabels)
+    return myTree
 
