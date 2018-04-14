@@ -81,13 +81,13 @@ def createTree(dataSet, labels):
     #print(classList.count(classList[0]) == len(classList))
     #print(len(dataSet[0]))
     if classList.count(classList[0]) == len(classList):
-        print(classList[0])
+        #print(classList[0])
         return classList[0]
     if len(dataSet[0]) == 1:
         return majorityCnt(classList)
     bestFeat = chooseBestFeatureToSplit(dataSet)
     bestFeatLabel = labels[bestFeat]
-    print(bestFeatLabel)
+    #print(bestFeatLabel)
     myTree = {bestFeatLabel:{}}
     del(labels[bestFeat])
     featValues = [example[bestFeat] for example in dataSet]
@@ -96,4 +96,17 @@ def createTree(dataSet, labels):
         subLabels = labels[:]
         myTree[bestFeatLabel][value] = createTree(spliDataSet(dataSet, bestFeat, value), subLabels)
     return myTree
+
+#分类器
+def classify(inputTree, featLabels, testVec):
+    firstStr = list(inputTree.keys())[0]
+    secondDict = inputTree[firstStr]
+    featIndex = featLabels.index(firstStr)
+    for key in secondDict.keys():
+        if testVec[featIndex] == key:
+            if type(secondDict[key]).__name__ == 'dict':
+                classLabel = classify(secondDict[key], featLabels, testVec)
+            else:
+                classLabel = secondDict[key]
+    return classLabel
 
