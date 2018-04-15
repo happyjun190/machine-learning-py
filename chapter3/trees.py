@@ -110,3 +110,29 @@ def classify(inputTree, featLabels, testVec):
                 classLabel = secondDict[key]
     return classLabel
 
+
+#存储决策树-持久化决策树
+def storeTree(inputTree, fileName):
+    import pickle
+    fw = open(fileName, 'wb')
+    #inputTree = str(inputTree)
+    #print(inputTree)
+    #inputTree = str(inputTree)
+    pickle.dump(inputTree, fw)
+    fw.close()
+
+#获取决策树句柄
+def grabTree(fileName):
+    import pickle
+    fr = open(fileName, 'rb')
+    return pickle.load(fr)
+
+
+#获取眼科病决策树
+def getLenseTree():
+    fr = open('lenses.txt')
+    lenses = [inst.strip().split('\t') for inst in fr.readlines()]
+    lenseLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+    lenseTree = createTree(lenses, lenseLabels)
+    #print(lenseTree)
+    return lenseTree

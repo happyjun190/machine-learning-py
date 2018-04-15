@@ -1,13 +1,21 @@
 from chapter3 import trees
 from chapter3 import treePlotter
 
+
+lensesTree = trees.getLenseTree()
+
+treePlotter.createPlot(lensesTree)
+
+exit()
 #获取数据
 myData, labels = trees.createDataSet()
 
 myTree = treePlotter.retrieveTree(0)
 #print(myTree)
 
-print(trees.classify(myTree, labels, [1, 1]))
+trees.storeTree(myTree, 'classifierStorage.txt')
+print(trees.grabTree('classifierStorage.txt'))
+#print(trees.classify(myTree, labels, [1, 1]))
 
 #print(trees.chooseBestFeatureToSplit(myData))
 
