@@ -1,4 +1,5 @@
 from numpy import *
+import feedparser
 
 def loadDataSet():
     postingList = [

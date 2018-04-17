@@ -1,5 +1,12 @@
 from chapter4 import bayes
 import re
+import feedparser
+
+ny = feedparser.parse('http://newyork.craigslist.org/stp/index.rss')
+
+ny['entries']
+print(len(ny['entries']))
+exit()
 
 #针对标点符号进行正则匹配
 #regEx = re.compile('\\W*')
