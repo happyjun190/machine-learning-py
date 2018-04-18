@@ -116,9 +116,6 @@ def colicTest():
 
     for line in frTrain.readlines():
         currLine = line.strip().split('\t')
-        lineArr = []
-        #for i in range(21):
-        #    lineArr.append(float(currLine[i]))
         lineArr = [float(currLine[i]) for i in range(21)]
         trainingSet.append(lineArr)
         trainingLabels.append(float(currLine[21]))
