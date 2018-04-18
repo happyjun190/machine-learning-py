@@ -1,6 +1,10 @@
 from chapter5 import logRegres
 from numpy import *
 
+logRegres.multiTest()
+
+exit()
+
 dataArr, labelMat = logRegres.loadDataSet()
 
 #weights = logRegres.gradAscend(dataArr, labelMat)

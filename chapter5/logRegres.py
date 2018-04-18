@@ -13,7 +13,10 @@ def loadDataSet():
 
 #定义函数: 1/(1+e-z)
 def sigmoid(inX):
-    return 1.0 / (1 + exp(-inX))
+    if -inX > log(finfo(type(inX)).max):
+        return 0.0
+    result = 1.0 / (1 + exp(-inX))
+    return result
 
 #梯度上升算法
 def gradAscend(dataMatIn, classLabels):
@@ -87,9 +90,58 @@ def stocGradAscend1(dataMatrix, classLabels, numIter=150):
             weightsTmp = weightsTmp + alpha*error*dataMatrix[randIndex]
             del(dataIndex[randIndex])
 
-    # 返回为矩阵格式
+    #返回为矩阵格式
     weights = zeros((n, 1))
     for i in range(n):
         weights[i][0] = weightsTmp[i]
 
     return weights
+
+
+
+#Listing 5.5 Logistic regression classification function
+def classifyVector(inX, weights):
+    prob = sigmoid(sum(inX*weights))
+    if prob > 0.5:
+        return 1.0
+    else:
+        return 0.0
+
+
+def colicTest():
+    frTrain = open('horseColicTraining.txt')
+    frTest = open('horseColicTest.txt')
+
+    trainingSet = []; trainingLabels = []
+
+    for line in frTrain.readlines():
+        currLine = line.strip().split('\t')
+        lineArr = []
+        #for i in range(21):
+        #    lineArr.append(float(currLine[i]))
+        lineArr = [float(currLine[i]) for i in range(21)]
+        trainingSet.append(lineArr)
+        trainingLabels.append(float(currLine[21]))
+
+    trainingWeights = stocGradAscend1(array(trainingSet), trainingLabels, 500)
+    errorCount = 0.0; numTestVec = 0.0
+
+    for line in frTest.readlines():
+        numTestVec += 1.0
+        currLine = line.strip().split('\t')
+        lineArr = [float(currLine[i]) for i in range(21)]
+        if int(classifyVector(array(lineArr), trainingWeights))!=int(currLine[21]):
+            errorCount += 1.0
+
+    errorRate = errorCount/numTestVec
+
+    print('the error rate of this test is : %f' % errorRate)
+    return errorRate
+
+def multiTest():
+    numTests = 10; errorSum = 0.0
+    for k in range(numTests):
+        errorSum += colicTest()
+    print('after %d iterations the average error rate is %f' %(numTests, errorSum/float(numTests)))
+
+
