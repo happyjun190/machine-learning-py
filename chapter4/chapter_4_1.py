@@ -17,7 +17,7 @@ exit()
 
 #listOfTokens = [word.lower() for word in listOfTokens if len(word) > 0]
 #print(listOfTokens)
-
+E
 #emailText = open('email/ham/6.txt').read()
 #listOfTokens = regEx.split(emailText)
 #listOfTokens = [word.lower() for word in listOfTokens if len(word) > 0]
