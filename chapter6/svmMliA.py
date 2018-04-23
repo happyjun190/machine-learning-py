@@ -39,7 +39,9 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
         for i in range(m):
             fXi = float(multiply(alphas, labelMat).T*(dataMatrix * dataMatrix[i,:].T))
             Ei = fXi - float(labelMat[i])
-            if ((labelMat[i]*Ei < - toler) and alphas[i] < C) or ((labelMat[i]*Ei > toler) and (alphas[i] > 0)):
+            if ((labelMat[i] * Ei < -toler) and (alphas[i] < C)) or ((labelMat[i] * Ei > toler) and (alphas[i] > 0)):
+            #if ((labelMat[i] * Ei < -toler) and (alphas[i] < C)) or ((labelMat[i] * Ei > toler) and (alphas[i] > 0)):
+
                 j = selectJrand(i, m)
 
                 #print(dataMatrix)
@@ -58,7 +60,7 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                 if L==H: print("L==H"); continue
                 eta = 2.0 * dataMatrix[i, :] * dataMatrix[j, :].T - dataMatrix[i, :] * dataMatrix[i, :].T - dataMatrix[j, :] * dataMatrix[j, :].T
                 if eta >= 0: print("eta>=0"); continue
-                alphas[i] -= labelMat[j] * (Ei-Ej)/eta
+                alphas[j] -= labelMat[j] * (Ei-Ej)/eta
                 alphas[j] = clipAlpha(alphas[j], H, L)
 
                 if (abs(alphas[j]-alphaJold)<0.00001):print("j not moving enough"); continue
