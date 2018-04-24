@@ -17,3 +17,12 @@ print(shape(alphas[alphas>0]))
 for i in range(100):
     if alphas[i] > 0:
         print("dataArr[%d] : %s, labelArr[%d]: %s " % (i,dataArr[i], i, labelArr[i]))
+
+
+ws = fullSMOAlgo.calcWs(alphas, dataArr, labelArr)
+print("ws :%s" % ws)
+
+datMat = mat(dataArr)
+ret = datMat[0]*mat(ws) + b
+print(ret)
+
