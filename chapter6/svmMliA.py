@@ -37,10 +37,9 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
     while (iter < maxIter):
         alphaPairsChanged = 0
         for i in range(m):
-            fXi = float(multiply(alphas, labelMat).T*(dataMatrix * dataMatrix[i,:].T))
+            fXi = float(multiply(alphas, labelMat).T*(dataMatrix * dataMatrix[i,:].T)) + b
             Ei = fXi - float(labelMat[i])
             if ((labelMat[i] * Ei < -toler) and (alphas[i] < C)) or ((labelMat[i] * Ei > toler) and (alphas[i] > 0)):
-            #if ((labelMat[i] * Ei < -toler) and (alphas[i] < C)) or ((labelMat[i] * Ei > toler) and (alphas[i] > 0)):
 
                 j = selectJrand(i, m)
 
@@ -80,8 +79,8 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
                 print("iter : %d i:%d, pairs changed %d " % (iter, i, alphaPairsChanged))
 
         if (alphaPairsChanged == 0) :
-            iter += 0
-        else:
             iter += 1
+        else:
+            iter = 0
         print("iteration number : %d " % iter)
     return b, alphas
