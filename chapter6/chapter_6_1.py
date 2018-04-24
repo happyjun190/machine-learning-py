@@ -1,10 +1,12 @@
 from chapter6 import svmMliA
+from chapter6 import fullSMOAlgo
 from numpy import *
 
 dataArr, labelArr = svmMliA.loadDataSet('testSet.txt')
 
 
-b, alphas = svmMliA.smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+#b, alphas = svmMliA.smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+b, alphas = fullSMOAlgo.smoP(dataArr, labelArr, 0.6, 0.001, 40)
 
 print('b=====================> %s' % b)
 #print('alphas================> %s' % alphas)
