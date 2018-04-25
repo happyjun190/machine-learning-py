@@ -2,6 +2,11 @@ from chapter6 import svmMliA
 from chapter6 import fullSMOAlgo
 from numpy import *
 
+
+
+fullSMOAlgo.testRbf()
+
+exit()
 dataArr, labelArr = svmMliA.loadDataSet('testSet.txt')
 
 
@@ -24,5 +29,5 @@ print("ws :%s" % ws)
 
 datMat = mat(dataArr)
 ret = datMat[0]*mat(ws) + b
-print(ret)
+print('ret: %s' %ret)
 
