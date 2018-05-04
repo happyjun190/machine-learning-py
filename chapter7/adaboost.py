@@ -89,3 +89,14 @@ def adaClassify(datToClass, classifierArr):
     return sign(aggClassEst)
 
 
+#Listing 7.4 Adaptive load data function
+def loadDataSet(fileName):
+    numFeat = len(open(fileName).readline().split('\t'))
+    dataMat = []; labelMat = []
+    fr = open(fileName)
+    for line in fr.readlines():
+        curLine = line.strip().split('\t')
+        lineArr = [float(curLine[i]) for i in range(numFeat - 1)]
+        dataMat.append(lineArr)
+        labelMat.append(float(curLine[-1]))
+    return dataMat, labelMat
