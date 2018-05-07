@@ -62,21 +62,21 @@ def adaBoostTrainDS(dataArr, classLabels, numIt=40):
     aggClassEst = mat(zeros((m, 1)))
     for i in range(numIt):
         bestStump, error, classEst = buildStump(dataArr, classLabels, D)
-        print('D: %s' % D.T)
+        #print('D: %s' % D.T)
         alpha = float(0.5 * log((1 - error)/ max(error, 1e-16)))
         bestStump['alpha'] = alpha
         weakClassArr.append(bestStump)
-        print('classEst: %s' % classEst.T)
+        #print('classEst: %s' % classEst.T)
         expon = multiply(-1 * alpha * mat(classLabels).T, classEst)
         D = multiply(D, exp(expon))
         D = D / D.sum()
         aggClassEst += alpha * classEst
-        print('aggClassEst: %s' % classEst.T)
+        #print('aggClassEst: %s' % classEst.T)
         aggErrors = multiply(sign(aggClassEst) != mat(classLabels).T, ones((m, 1)))
         errorRate = aggErrors.sum() / m
         print('total error: %f' % errorRate)
         if errorRate == 0.0: break
-    return weakClassArr
+    return weakClassArr, aggClassEst
 
 #Listing 7.3 AdaBoost classification function
 def adaClassify(datToClass, classifierArr):
@@ -100,3 +100,31 @@ def loadDataSet(fileName):
         dataMat.append(lineArr)
         labelMat.append(float(curLine[-1]))
     return dataMat, labelMat
+
+#Listing 7.5 ROC plotting and AUC calculating function
+def plotROC(predStrengths, classlabels):
+    import matplotlib.pyplot as plt
+    cur = (1.0, 1.0)
+    ySum = 0.0
+    numPosClas = sum(array(classlabels)==1.0)
+    yStep = 1 / float(numPosClas)
+    xStep = 1 / float(len(classlabels) -  numPosClas)
+    sortedIndicies = predStrengths.argsort()
+    fig = plt.figure()
+    fig.clf()
+    ax = plt.subplot(111)
+
+    for index in sortedIndicies.tolist()[0]:
+        if classlabels[index] == 1.0:
+            delX = 0; delY = yStep
+        else:
+            delX = xStep; delY = 0
+            ySum += cur[1]
+        ax.plot([cur[0], cur[0] - delX], [cur[1], cur[1] - delY], c = 'b')
+        cur = (cur[0]- delX, cur[1] - delY)
+    ax.plot([0, 1], [0, 1], 'b--')
+    plt.xlabel('False Positive Rate'); plt.ylabel('True Positive Rate')
+    plt.title('ROC curve for AdaBoost Horse Colic Detection System')
+    ax.axis([0, 1, 0, 1])
+    plt.show()
+    print("the Area Under the Curve is: %f" % ySum * xStep)
